@@ -5,7 +5,7 @@ import { logger } from '../config/logger';
 export class Server {
 
   public readonly app: Express;
-  
+  private serverListen?: any;
   constructor(private readonly port: number) {
     this.app = express();
   }
@@ -17,9 +17,21 @@ export class Server {
 
     this.app.use('/api', appRoutes);
 
-    const listenServer = this.app.listen(this.port, () => {
+    this.serverListen = this.app.listen(this.port, () => {
       logger.info(`Server run in port ${this.port}`)
     })
-    return listenServer;
+  }
+
+  public async close(){
+    return new Promise((resolve) => {
+      if (this.serverListen) {
+        this.serverListen?.close(() => {
+          console.log('Test server has been stopped');
+          resolve(true);
+        })
+      } else {
+        resolve(true);
+      }
+    });
   }
 }

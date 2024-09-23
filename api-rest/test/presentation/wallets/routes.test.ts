@@ -1,4 +1,4 @@
-import { describe, expect, test, jest, beforeEach, afterAll } from '@jest/globals';
+import { describe, expect, test, jest, beforeEach, afterEach } from '@jest/globals';
 import request from "supertest";
 import { testServer } from "../../server-test";
 import { WalletRespositoryImpl } from '../../../src/infrastructure/repository/wallet.repositoryimpl';
@@ -13,17 +13,18 @@ const getBalanceMethodMock = jest.spyOn(
 
 describe("Wallets Routes Test", () => {
 
-  afterAll(() => {
+  beforeEach(async () => {
+    await testServer.close();
+    await testServer.start();
     jest.clearAllMocks();
   })
 
-  beforeEach(() => {
+  afterEach(async () => {
+    await testServer.close();
     jest.clearAllMocks();
   })
 
   test("Should Be return value of a Wallet with 10 dollars of Balance /api/wallet/balance", async () => {
-
-    const listenServer = await testServer.start();
 
     const resultMock: DataResponse = {
       success: true,
@@ -51,12 +52,9 @@ describe("Wallets Routes Test", () => {
       balance: 10
     }))
 
-    listenServer.close();
   })
 
   test("Should Be return Bad Request 400 Document its required /api/wallet/balance", async () => {
-
-    const listenServer = await testServer.start();
 
     const response = await request(testServer.app)
       .get('/api/wallet/balance')
@@ -67,13 +65,10 @@ describe("Wallets Routes Test", () => {
     expect(response.body.message_error).toBe('"document" is required');
     expect(response.body.cod_error).toBe(400);
 
-    listenServer.close();
   })
 
 
   test("Should Be return Bad Request 400 Phone its required /api/wallet/balance", async () => {
-
-    const listenServer = await testServer.start();
 
     const response = await request(testServer.app)
       .get('/api/wallet/balance')
@@ -84,12 +79,9 @@ describe("Wallets Routes Test", () => {
     expect(response.body.message_error).toBe('"phone" is required');
     expect(response.body.cod_error).toBe(400);
 
-    listenServer.close();
   })
   
   test("Should Be return User no Exist  /api/wallet/balance", async () => {
-
-    const listenServer = await testServer.start();
 
     const resultMock: DataResponse = {
       success: false,
@@ -115,12 +107,9 @@ describe("Wallets Routes Test", () => {
     expect(response.body.message_error).toBe("the User Dont's Exist");
     expect(response.body.cod_error).toBe(400);
 
-    listenServer.close();
   })
 
   test("Should Be return Incorrect user phone number  /api/wallet/balance", async () => {
-
-    const listenServer = await testServer.start();
 
     const resultMock: DataResponse = {
       success: false,
@@ -146,6 +135,5 @@ describe("Wallets Routes Test", () => {
     expect(response.body.message_error).toBe("Incorrect user phone number");
     expect(response.body.cod_error).toBe(400);
 
-    listenServer.close();
   })
 })
