@@ -1,7 +1,8 @@
+import { describe, expect, test, jest } from '@jest/globals';
 import { CONFIGURATION } from "../src/config/configuration";
 import { Server } from "../src/presentation/server";
 
-jest.mock("../src/presentation/server")
+jest.mock("../src/presentation/server");
 
 describe("App testing", () => {
   test("Should call server start", async () => {

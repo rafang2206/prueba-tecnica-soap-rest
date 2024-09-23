@@ -4,7 +4,7 @@ import { logger } from '../config/logger';
 
 export class Server {
 
-  private app: Express;
+  public readonly app: Express;
   
   constructor(private readonly port: number) {
     this.app = express();

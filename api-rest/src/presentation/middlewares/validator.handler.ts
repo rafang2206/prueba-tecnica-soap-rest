@@ -23,7 +23,7 @@ export default function validatorHandler(schema: any, property: string) {
       logger.error(error.message);
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
-        .json({ message_error: error.message, success: false, code_error: HTTP_STATUS.BAD_REQUEST });
+        .json({ message_error: error.message, success: false, cod_error: HTTP_STATUS.BAD_REQUEST });
     }
   };
 }
