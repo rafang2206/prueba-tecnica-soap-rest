@@ -17,8 +17,9 @@ export class Server {
 
     this.app.use('/api', appRoutes);
 
-    this.app.listen(this.port, () => {
+    const listenServer = this.app.listen(this.port, () => {
       logger.info(`Server run in port ${this.port}`)
     })
+    return listenServer;
   }
 }
