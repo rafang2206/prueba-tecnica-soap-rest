@@ -1,0 +1,18 @@
+doctrine_mongodb:
+  auto_generate_proxy_classes: true
+  auto_generate_hydrator_classes: true
+  connections:
+    default:
+      server: "%env(resolve:MONGO_URL)%"
+  default_database: "%env(resolve:MONGO_DB_NAME)%"
+  document_managers:
+    default:
+      auto_mapping: true
+      mappings:
+        App:
+          dir: "%kernel.project_dir%/src/Data/Mongo/Document"
+          mapping: true
+          type: attribute
+          prefix: 'App\Data\Mongo\Document'
+          is_bundle: false
+          alias: App
