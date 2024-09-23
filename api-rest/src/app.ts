@@ -1,3 +1,4 @@
+import { CONFIGURATION } from "./config/configuration";
 import { Server } from "./presentation/server";
 
 (() => {
@@ -5,6 +6,6 @@ import { Server } from "./presentation/server";
 })()
 
 function main(){
-  const server = new Server(3000);
+  const server = new Server(CONFIGURATION.PORT);
   server.start();
 }
